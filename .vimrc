@@ -3,12 +3,24 @@
 set nocompatible
 behave mswin
 
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Cloning vundle:
+" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+Bundle 'gmarik/vundle'
+
+Bundle 'scrooloose/nerdtree'
+Bundle 'kien/ctrlp.vim'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'majutsushi/tagbar'
+
 " English, please - doesn't always work for some reason
 " language en
 
-filetype plugin on
-
-execute pathogen#infect()
+" execute pathogen#infect()
 
 set encoding=utf-8
 set fenc=utf-8
@@ -35,12 +47,17 @@ if has('gui_running')
    set guioptions-=r
 endif
 
-colorscheme desert
+syntax enable
+
+if has('gui_running')
+    set background=dark
+    colorscheme solarized " desert
+else
+    colorscheme desert
+endif
 
 " Set line width.
 set tw=140
-
-syntax on
 
 " Virtual editing for moving cursor anywhare even if no char is there.
 set virtualedit+=block
@@ -104,6 +121,10 @@ nnoremap <leader>= <c-w>=
 nnoremap <leader>inc <c-a>
 nnoremap <leader>dec <c-x>
 
+" Plugin mappings
+nnoremap <silent> <leader>n :NERDTree<cr>
+nnoremap <silent> <leader>p :CtrlP<cr>
+
 " Edit vim config files (if they exist)
 function! EditConfig()
     for config in ['$MYGVIMRC', '$MYVIMRC']
@@ -138,6 +159,3 @@ if has('win32')
     " set shell=C:\cygwin\bin\bash.exe
 endif
 
-" Plugin mappings
-nnoremap <silent> <leader>n :NERDTree<cr>
-nnoremap <silent> <leader>p :CtrlP<cr>
