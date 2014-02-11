@@ -22,8 +22,11 @@ Bundle 'majutsushi/tagbar'
 
 " execute pathogen#infect()
 
+" Add better UTF-8 support.
+scriptencoding utf-8
 set encoding=utf-8
 set fenc=utf-8
+set enc=utf-8
 
 " Tabs as spaces, set to 4 and smart indenting stuff.
 set smartindent
@@ -31,10 +34,23 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
+" --- Haven't tried these yet:
+" Improve the backspace key.
+"set backspace=indent,eol,start
+" Enable the tab complete menu.
+"set wildmenu
+" Corrects the spelling under the cursor with the first suggestion.
+"nmap <leader>z 1z=u
+
+
+" Disabled code folding. It can be weird sometimes.
+set nofoldenable
+
 if has('gui_running')
     " Fonts and colors for GUI:
    if has('win32')
-       set guifont=Monospace:h12
+"       set guifont=Monospace:h12
+       set guifont=Consolas:h12
    else
        set guifont=DejaVu\ Sans\ Mono\ 12
    endif
@@ -51,7 +67,11 @@ syntax enable
 
 if has('gui_running')
     set background=dark
-    colorscheme solarized " desert
+    if has('win32')
+        colorscheme desert
+    else
+        colorscheme solarized " desert
+    endif
 else
     colorscheme desert
 endif
@@ -65,12 +85,12 @@ set virtualedit+=block
 " Hide line numbers
 set nonumber
 
-" Keep backups in one place.
-" set backup
-" set backupdir=$vimruntime/.vim/backup
-" set directory=$vimruntime/.vim/temp
+" Show the file name in the window title bar.
+set title
 
+" Disable backups.
 set nobackup
+set noswapfile
 
 set incsearch   " Show search matches as you type
 set ignorecase  " Ignore case when searching
@@ -86,14 +106,25 @@ set sidescrolloff=5  " Lines visible to the left/right of cursor when scrolling
 
 set tabpagemax=128   "Maximum number of tabs open
 
+" Don't reset cursor to start of line when moving around.
+set nostartofline
+
+" Spelling
+" Configure the spelling language and file.
+set spelllang=en_us
+" TODO: Consider adding a better spell file.
+"set spellfile=$HOME/.vim/spell/en.utf-8.add
+set spell
+
 " Automatically cd into the directory that the file is in.
 autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
 
 " Remove any trailing whitespace that is in the file.
 autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 
-" Turns off the annoying beeping. Edit: visualbell is even worse...
-" set visualbell
+" Turns off the annoying beeping.
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb="
 
 " Key mappings
 inoremap jj <esc>
@@ -116,6 +147,9 @@ nnoremap <leader>H <c-w>H
 nnoremap <leader>o <c-w>o
 nnoremap <leader>_ <c-w>_
 nnoremap <leader>= <c-w>=
+
+" Clears the search. (c)
+nmap <silent> <leader>c/ :nohlsearch<CR>
 
 " Some usefull features 'over-mapped' by windows shortcuts.
 nnoremap <leader>inc <c-a>
