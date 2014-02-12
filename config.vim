@@ -1,4 +1,10 @@
 
+" Cloning vundle:
+" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+" Installing plugins:
+" vim +BundleClean! +BundleInstall! +qall
+
+
 " Turn off old vi compatibility (emulation of old bugs)
 set nocompatible
 behave mswin
@@ -8,14 +14,35 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" Cloning vundle:
-" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 Bundle 'gmarik/vundle'
 
 Bundle 'scrooloose/nerdtree'
 Bundle 'kien/ctrlp.vim'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'majutsushi/tagbar'
+
+" JavaScript:
+
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'pangloss/vim-javascript'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'Raimondi/delimitMate'
+
+Bundle 'scrooloose/syntastic'
+" This needs this:
+" npm install -g jshint
+
+" This does what it says on the tin. It will check your file on open too, not just on save.
+" You might not want this, so just leave it out if you don't.
+let g:syntastic_check_on_open=1
+
+Bundle 'Valloric/YouCompleteMe'
+
+" These are the tweaks I apply to YCM's config, you don't need them but they might help.
+" YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
+let g:ycm_add_preview_to_completeopt=0
+let g:ycm_confirm_extra_conf=0
+set completeopt-=preview
 
 " English, please - doesn't always work for some reason
 " language en
@@ -117,14 +144,15 @@ set spelllang=en_us
 set spell
 
 " Automatically cd into the directory that the file is in.
-autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
+"autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
+autocmd BufEnter * silent! lcd %:p:h
 
 " Remove any trailing whitespace that is in the file.
 autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 
 " Turns off the annoying beeping.
 set noerrorbells visualbell t_vb=
-autocmd GUIEnter * set visualbell t_vb="
+autocmd GUIEnter * set visualbell t_vb=
 
 " Key mappings
 inoremap jj <esc>
@@ -132,7 +160,7 @@ inoremap jj <esc>
 let mapleader = ','
 let maplocalleader = ','
 
-" Some of the Crtl-W remapped to commma.
+" Some of the Ctrl-W remapped to commma.
 nnoremap <leader>, <c-w>w
 nnoremap <leader>j <c-w>j
 nnoremap <leader>k <c-w>k
@@ -154,6 +182,8 @@ nmap <silent> <leader>c/ :nohlsearch<CR>
 " Some usefull features 'over-mapped' by windows shortcuts.
 nnoremap <leader>inc <c-a>
 nnoremap <leader>dec <c-x>
+
+inoremap <a-o> <cr><esc>O
 
 " Plugin mappings
 nnoremap <silent> <leader>n :NERDTree<cr>
