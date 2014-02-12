@@ -159,6 +159,10 @@ nnoremap <leader>dec <c-x>
 nnoremap <silent> <leader>n :NERDTree<cr>
 nnoremap <silent> <leader>p :CtrlP<cr>
 
+if has('win32')
+    nnoremap <leader>hosts :tabe C:\Windows\System32\drivers\etc\hosts<cr>
+endif
+
 " Edit vim config files (if they exist)
 function! EditConfig()
     for config in ['$MYGVIMRC', '$MYVIMRC']
